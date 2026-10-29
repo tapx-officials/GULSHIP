@@ -920,7 +920,7 @@ saveCart();
     // Show the loading state before navigating to WhatsApp.
     setOrderButtonLoading(true);
 
-    // Do not clear the cart just because WhatsApp was opened.
+   // Cart has already been cleared after preparing the order message.
     showPage("confirmationPage", { pushHistory: true });
 
     // User must send the pre-filled message themselves.

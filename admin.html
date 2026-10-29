@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f4ef">
+  <title>GULSHIP — Admin Dashboard</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+  <link rel="stylesheet" href="admin.css">
+  <script src="admin.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <a class="brand" href="admin.html">
+        <span class="brand-mark">
+          <i class="fa-solid fa-crown"></i>
+        </span>
+        <span>
+          <strong>GULSHIP</strong>
+          <small>ADMIN STUDIO</small>
+        </span>
+      </a>
+
+      <div class="sidebar-label">WORKSPACE</div>
+
+      <button
+        class="side-link active"
+        data-section="overview"
+        type="button"
+      >
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Overview</span>
+      </button>
+
+      <button
+        class="side-link"
+        data-section="activity"
+        type="button"
+      >
+        <i class="fa-solid fa-receipt"></i>
+        <span>Customer Activity</span>
+        <span class="side-count" id="sidebarActivityCount">0</span>
+      </button>
+
+      <div class="sidebar-bottom">
+        <div class="admin-profile">
+          <div class="avatar">G</div>
+          <div>
+            <strong>GULSHIP</strong>
+            <small>Store administrator</small>
+          </div>
+        </div>
+
+        <p class="local-note">
+          <i class="fa-solid fa-circle-info"></i>
+          Local browser dashboard
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">GULSHIP / MANAGEMENT</div>
+          <h1 id="pageTitle">Overview</h1>
+          <p id="pageSubtitle">Your store at a glance.</p>
+        </div>
+
+        <button
+          class="icon-button"
+          id="refreshDashboard"
+          type="button"
+          aria-label="Refresh dashboard"
+        >
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+      </header>
+
+      <!-- Overview Section -->
+      <section id="overviewSection">
+
+        <div class="welcome-banner">
+          <div class="welcome-copy">
+            <span class="welcome-tag">STORE MANAGEMENT</span>
+            <h2>Keep things running smoothly.</h2>
+            <p>
+              Manage your store availability and review recorded
+              customer activity.
+            </p>
+          </div>
+
+          <div class="welcome-art" aria-hidden="true">
+            <i class="fa-solid fa-store"></i>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Store controls</h2>
+            <p>
+              Control the availability shown by your customer website.
+            </p>
+          </div>
+        </div>
+
+        <article class="store-card">
+          <div class="store-icon" id="storeIcon">
+            <i class="fa-solid fa-store"></i>
+          </div>
+
+          <div class="store-copy">
+            <span class="mini-label">CURRENT STATUS</span>
+            <h3 id="storeStatusTitle">Checking store status…</h3>
+            <p id="storeStatusDescription">
+              Reading saved browser settings.
+            </p>
+          </div>
+
+          <div class="store-action">
+            <span class="status-pill" id="storeStatusPill">
+              <span class="status-dot"></span>
+              <span id="storeStatusText">Loading</span>
+            </span>
+
+            <button
+              class="primary-button"
+              id="toggleStore"
+              type="button"
+            >
+              <i class="fa-solid fa-power-off"></i>
+              <span>Close Store</span>
+            </button>
+          </div>
+        </article>
+
+        <div class="section-heading">
+          <div>
+            <h2>Activity summary</h2>
+            <p>
+              Records saved by this browser's customer website.
+            </p>
+          </div>
+
+          <button
+            class="text-button"
+            data-section="activity"
+            type="button"
+          >
+            View activity
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="stats-grid">
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Total activity records</span>
+              <span class="stat-icon">
+                <i class="fa-solid fa-users"></i>
+              </span>
+            </div>
+            <strong id="totalActivity">0</strong>
+            <small>Saved locally in this browser</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Today's activity</span>
+              <span class="stat-icon gold">
+                <i class="fa-regular fa-calendar"></i>
+              </span>
+            </div>
+            <strong id="todayActivity">0</strong>
+            <small>Based on recorded redirect time</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Recorded product value</span>
+              <span class="stat-icon green">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+              </span>
+            </div>
+            <strong id="totalValue">₹0</strong>
+            <small>Activity value, not verified sales</small>
+          </article>
+
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Recent activity</h2>
+            <p>
+              The latest recorded WhatsApp redirect attempts.
+            </p>
+          </div>
+        </div>
+
+        <div class="activity-list" id="recentActivity"></div>
+
+        <button
+          class="secondary-button full-button"
+          data-section="activity"
+          type="button"
+        >
+          View all activity
+        </button>
+
+      </section>
+
+      <!-- Customer Activity Section -->
+      <section id="activitySection" class="hidden">
+
+        <div class="section-heading activity-heading">
+          <div>
+            <h2>Customer activity</h2>
+            <p>
+              Review the details recorded before customers are
+              redirected to WhatsApp.
+            </p>
+          </div>
+
+          <button
+            class="secondary-button"
+            id="exportActivity"
+            type="button"
+          >
+            <i class="fa-solid fa-download"></i>
+            Export CSV
+          </button>
+        </div>
+
+        <div class="filter-panel">
+
+          <label class="search-field">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              id="activitySearch"
+              type="search"
+              placeholder="Search name, phone or order ID…"
+            >
+          </label>
+
+          <label class="filter-field">
+            <span>Date</span>
+            <select id="dateFilter">
+              <option value="all">All dates</option>
+              <option value="today">Today</option>
+              <option value="week">Last 7 days</option>
+              <option value="month">Last 30 days</option>
+            </select>
+          </label>
+
+          <button
+            class="secondary-button"
+            id="clearFilters"
+            type="button"
+          >
+            Reset
+          </button>
+
+        </div>
+
+        <div class="results-line">
+          <span id="activityResultsCount">0 records</span>
+          <span>Newest first</span>
+        </div>
+
+        <div class="activity-list" id="allActivity"></div>
+
+        <div class="empty-state hidden" id="emptyActivity">
+          <div class="empty-icon">
+            <i class="fa-regular fa-folder-open"></i>
+          </div>
+          <h3>No activity found</h3>
+          <p>
+            There are no matching records saved in this browser.
+          </p>
+        </div>
+
+        <div class="privacy-notice">
+          <i class="fa-solid fa-shield-halved"></i>
+          <p>
+            <strong>Activity is not proof of an order.</strong>
+            These records mean the customer website attempted to
+            open WhatsApp. They do not confirm that the message
+            was sent or payment was received.
+          </p>
+        </div>
+
+        <button
+          class="danger-button"
+          id="clearActivity"
+          type="button"
+        >
+          <i class="fa-regular fa-trash-can"></i>
+          Clear local activity records
+        </button>
+
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <span>© <span id="currentYear"></span> GULSHIP</span>
+        <span>Admin Dashboard</span>
+      </footer>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav
+      class="mobile-bottom-nav"
+      aria-label="Admin navigation"
+    >
+      <button
+        class="mobile-nav-item active"
+        type="button"
+        data-section="overview"
+        aria-current="page"
+      >
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Overview</span>
+      </button>
+
+      <button
+        class="mobile-nav-item"
+        type="button"
+        data-section="activity"
+      >
+        <i class="fa-solid fa-receipt"></i>
+        <span>Activity</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div
+    class="toast"
+    id="adminToast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+  <!-- Confirmation Dialog -->
+  <dialog class="confirm-dialog" id="confirmDialog">
+    <div class="dialog-icon">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+
+    <h3 id="dialogTitle">Are you sure?</h3>
+    <p id="dialogMessage">This action cannot be undone.</p>
+
+    <div class="dialog-actions">
+      <button
+        class="secondary-button"
+        id="dialogCancel"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="danger-button"
+        id="dialogConfirm"
+        type="button"
+      >
+        Confirm
+      </button>
+    </div>
+  </dialog>
+
+</body>
+</html>

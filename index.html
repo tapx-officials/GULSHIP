@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f2e8">
+  <meta name="description" content="Explore modern eyewear and everyday tech accessories at GULSHIP. Browse products and submit your order through WhatsApp.">
+  <title>GULSHIP — Modern Essentials</title>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <button class="brand" type="button" data-page="homePage" aria-label="GULSHIP home">
+      <img src="logo.png" alt="GULSHIP logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="brand-fallback">G</span>
+    </button>
+
+    <button class="brand-name" type="button" data-page="homePage">
+      GULSHIP
+      <span>MODERN ESSENTIALS</span>
+    </button>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="searchToggle" type="button" aria-label="Search products" title="Search products">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button class="icon-btn cart-header-btn" type="button" data-page="cartPage" aria-label="Open shopping bag" title="Shopping bag">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span id="cartCount">0</span>
+      </button>
+      <button class="icon-btn refresh-btn" id="refreshBtn" type="button" aria-label="Refresh store" title="Refresh store">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+    </div>
+  </header>
+
+  <section class="search-screen" id="searchScreen" aria-hidden="true">
+    <div class="search-screen-top">
+      <button class="search-back" id="closeSearch" type="button" aria-label="Close search">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="searchInput" type="search" placeholder="Search products..." autocomplete="off">
+        <button id="clearSearch" type="button" aria-label="Clear search">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+    <div class="search-screen-content">
+      <span class="eyebrow">FIND YOUR NEXT FAVOURITE</span>
+      <h2 id="searchHeading">Explore GULSHIP</h2>
+      <p id="searchSubheading">Browse our collection or search by product name.</p>
+      <div class="product-grid" id="searchResults"></div>
+      <div class="empty-state hidden" id="searchEmpty">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No matching products</h3>
+        <p>Try another name or category.</p>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- HOME -->
+    <section class="page active" id="homePage">
+      <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-label="GULSHIP collection showcase">
+          <source src="hero.mp4" type="video/mp4">
+          Your browser does not support video.
+        </video>
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <span class="eyebrow">THE GULSHIP COLLECTION</span>
+          <h1>Everyday essentials.<br>Elevated.</h1>
+          <p>Explore modern eyewear and tech accessories selected to bring a sharper touch to your everyday style.</p>
+          <button class="primary-btn hero-btn" id="shopCollection" type="button">
+            Explore Collection <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">SHOP BY CATEGORY</span>
+            <h2>Find your style</h2>
+          </div>
+        </div>
+        <div class="category-row" id="categoryRow"></div>
+      </section>
+
+      <section class="section-block products-section" id="productsSection">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CURATED FOR YOU</span>
+            <h2 id="productsHeading">All Products</h2>
+          </div>
+          <div class="heading-actions">
+            <span class="result-count" id="resultCount">0 items</span>
+            <button class="text-btn reset-btn" id="resetProducts" type="button">View all</button>
+          </div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+        <div class="empty-state hidden" id="noProducts">
+          <i class="fa-solid fa-box-open"></i>
+          <h3>No products found</h3>
+          <p>Choose another category to explore the collection.</p>
+          <button class="primary-btn" id="showAllProducts" type="button">Browse all products</button>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-brand">GULSHIP</div>
+        <p>Modern essentials, made easy to explore.</p>
+        <span>© <span id="year"></span> GULSHIP. All rights reserved.</span>
+      </footer>
+    </section>
+
+    <!-- PRODUCT DETAILS -->
+    <section class="page" id="productPage">
+      <div class="page-topline">
+        <button class="back-btn" type="button" data-page="homePage">
+          <i class="fa-solid fa-arrow-left"></i> Back to collection
+        </button>
+      </div>
+
+      <div class="product-detail-layout">
+        <div class="detail-gallery">
+          <div class="detail-gallery-track" id="detailGallery"></div>
+          <p class="gallery-hint" id="galleryHint">
+            <i class="fa-solid fa-arrows-left-right"></i> Swipe to explore product media
+          </p>
+        </div>
+
+        <div class="detail-info">
+          <span class="eyebrow" id="detailCategory">GULSHIP COLLECTION</span>
+          <h1 id="detailName">Product name</h1>
+          <div class="detail-price">
+            <strong id="detailPrice">₹0</strong>
+            <del id="detailOldPrice">₹0</del>
+            <span class="discount-tag" id="detailDiscount">0% OFF</span>
+          </div>
+
+          <p class="detail-description" id="detailDescription"></p>
+
+          <div class="detail-highlights" id="detailHighlights"></div>
+
+          <div class="detail-purchase">
+            <label class="field-label" for="detailQty">Select quantity</label>
+            <div class="quantity-control detail-quantity">
+              <button id="detailQtyMinus" type="button" aria-label="Decrease quantity">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span id="detailQty">1</span>
+              <button id="detailQtyPlus" type="button" aria-label="Increase quantity">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <button class="primary-btn add-detail-btn" id="addDetailToCart" type="button">
+              <i class="fa-solid fa-bag-shopping"></i> Add to Shopping Bag
+            </button>
+          </div>
+          <section class="related-products-section" id="relatedProductsSection">
+  <div class="related-products-heading">
+    <span class="section-eyebrow">JUST FOR YOU</span>
+    <h2>You May Also Like</h2>
+    <p>Discover more picks from GULSHIP.</p>
+  </div>
+
+  <div class="product-grid related-products-grid" id="relatedProductsGrid"></div>
+</section>
+
+          <div class="trust-note">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Review the product details and confirm specifications with GULSHIP before ordering.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOPPING BAG -->
+    <section class="page" id="cartPage">
+      <div class="page-heading">
+        <span class="eyebrow">YOUR SELECTION</span>
+        <h1>Cart</h1>
+        <p>Review your items and quantities before continuing to delivery details.</p>
+      </div>
+
+      <div class="empty-state hidden" id="emptyCart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <h2>Your bag is waiting</h2>
+        <p>Add a product to get started.</p>
+        <button class="primary-btn" type="button" data-page="homePage">Explore Products</button>
+      </div>
+
+      <div class="cart-items" id="cartItems"></div>
+
+      <div class="cart-summary hidden" id="cartSummary">
+        <div class="summary-line">
+          <span>Product subtotal</span>
+          <strong id="cartSubtotal">₹0</strong>
+        </div>
+        <div class="summary-line">
+          <span>Delivery charges</span>
+          <strong>To be confirmed</strong>
+        </div>
+        <div class="summary-line grand-total">
+          <span>Product total</span>
+          <strong id="cartGrandTotal">₹0</strong>
+        </div>
+
+        <div class="advance-note">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>A manual prepayment of ₹99 per product unit is required for order confirmation. GULSHIP will contact you to arrange it. Delivery charges, if any, are confirmed separately.</span>
+        </div>
+
+        <button class="primary-btn checkout-btn" id="proceedCheckout" type="button">
+          Continue to Delivery Details <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button class="text-btn continue-btn" type="button" data-page="homePage">
+          <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+        </button>
+      </div>
+    </section>
+
+    <!-- DELIVERY DETAILS -->
+    <section class="page checkout-page" id="checkoutPage">
+      <div class="checkout-wrap">
+        <div class="page-heading">
+          <span class="eyebrow">ALMOST THERE</span>
+          <h1>Delivery Details</h1>
+          <p>Enter your contact and delivery information. We’ll prepare an order request for WhatsApp.</p>
+        </div>
+
+        <div class="manual-payment-notice">
+          <span class="notice-icon"><i class="fa-solid fa-wallet"></i></span>
+          <div>
+            <strong>₹99 prepayment per product unit</strong>
+            <p>This website does not collect online payments. GULSHIP will contact you to arrange the required prepayment manually. Your order is not confirmed until GULSHIP confirms it.</p>
+          </div>
+        </div>
+
+        <form class="customer-form" id="customerForm">
+          <div class="form-grid">
+            <label class="form-field full-field">
+              Full name *
+              <input id="customerName" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Enter your full name" required>
+            </label>
+
+            <label class="form-field full-field">
+              Contact number *
+              <input id="customerPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" placeholder="Enter your phone number" required>
+            </label>
+
+            <label class="form-field full-field">
+              Delivery address *
+              <textarea id="customerAddress" name="address" autocomplete="street-address" rows="2" maxlength="250" placeholder="House number, street, area" required></textarea>
+            </label>
+
+            <label class="form-field">
+              City *
+              <input id="customerCity" name="city" type="text" autocomplete="address-level2" maxlength="60" placeholder="City" required>
+            </label>
+
+            <label class="form-field">
+              State *
+              <input id="customerState" name="state" type="text" autocomplete="address-level1" maxlength="60" placeholder="State" required>
+            </label>
+
+            <label class="form-field full-field">
+              PIN code *
+              <input id="customerPincode" name="pincode" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit PIN code" required>
+            </label>
+
+            <label class="form-field full-field">
+              Special request (optional)
+              <textarea id="customerNote" name="note" rows="3" maxlength="500" placeholder="Any special request or delivery instructions?"></textarea>
+            </label>
+          </div>
+
+          <p class="form-security-note">
+            <i class="fa-solid fa-lock"></i>
+            Your details will be included in the WhatsApp order request. Please verify them before continuing.
+          </p>
+
+          <button class="primary-btn full-width-btn" type="submit">
+            Review Order & Payment Terms <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button class="text-btn" id="cancelCheckout" type="button">
+            Cancel Checkout
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ORDER REVIEW / MANUAL PREPAYMENT -->
+    <section class="page payment-page" id="paymentPage">
+      <div class="payment-wrap">
+        <div class="page-heading">
+          <span class="eyebrow">FINAL REVIEW</span>
+          <h1>Review Your Order</h1>
+          <p>Check the amount and order details before sending your request to GULSHIP on WhatsApp.</p>
+        </div>
+
+        <div class="payment-total-card">
+          <span>Total product amount</span>
+          <strong id="paymentTotal">₹0</strong>
+          <div class="payment-split">
+            <div>
+              <span>Required manual prepayment</span>
+              <strong id="paymentAdvance">₹0</strong>
+            </div>
+            <div>
+              <span>Estimated remaining COD</span>
+              <strong id="paymentCod">₹0</strong>
+            </div>
+          </div>
+          <p class="calculation-note">Prepayment is calculated at ₹99 per product unit. Delivery charges, if applicable, are extra and must be confirmed by GULSHIP.</p>
+        </div>
+
+        <div class="payment-order-preview">
+          <h3>Order Summary</h3>
+          <div id="paymentItems"></div>
+          <div class="summary-line">
+            <span>Customer</span>
+            <strong id="reviewCustomerName">—</strong>
+          </div>
+          <div class="summary-line">
+            <span>Contact</span>
+            <strong id="reviewCustomerPhone">—</strong>
+          </div>
+          <div class="summary-line">
+            <span>Delivery PIN</span>
+            <strong id="reviewCustomerPincode">—</strong>
+          </div>
+        </div>
+
+        <div class="manual-payment-notice warning-notice">
+  <span class="notice-icon">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+  </span>
+
+  <div>
+    <strong>Order Confirmation & Payment Instructions</strong>
+
+    <ol>
+      <li>Click <strong>Place Order</strong> to open WhatsApp with your order details.</li>
+      <li>Press <strong>Send</strong> on WhatsApp to submit your order request to GULSHIP.</li>
+      <li>GULSHIP will provide instructions for making the mandatory <strong>₹99 confirmation payment</strong> manually.</li>
+      <li>Your order will be confirmed only after GULSHIP receives and verifies the ₹99 payment.</li>
+    </ol>
+
+    <p>
+      <strong>Important:</strong> The ₹99 payment is compulsory.
+      If you do not make this payment, your order will not be accepted.
+      Sending your order on WhatsApp does not mean your order is confirmed.
+    </p>
+
+    <p>
+      The remaining order amount and any applicable delivery charges
+      will be communicated separately by GULSHIP.
+    </p>
+  </div>
+</div>
+
+        <button class="primary-btn full-width-btn confirm-payment-btn" id="confirmPayment" type="button">
+          <i class="fa-brands fa-whatsapp"></i> Place Order
+        </button>
+        <p class="whatsapp-hint">WhatsApp will open with your order details pre-filled. You must send the message yourself. The order remains unconfirmed until GULSHIP responds.</p>
+
+        <button class="text-btn full-width-btn" id="backToDetails" type="button">
+          <i class="fa-solid fa-arrow-left"></i> Edit Delivery Details
+        </button>
+        <button class="text-btn full-width-btn" id="backToCart" type="button">
+          <i class="fa-solid fa-bag-shopping"></i> Return to Shopping Bag
+        </button>
+      </div>
+    </section>
+
+    <!-- REQUEST SENT / WHATSAPP HANDOFF -->
+    <section class="page confirmation-page" id="confirmationPage">
+      <div class="confirmation-card">
+        <div class="success-icon"><i class="fa-solid fa-message"></i></div>
+        <span class="eyebrow">NEXT STEP</span>
+        <h1>Continue in WhatsApp</h1>
+        <p>Your WhatsApp order message has been prepared. Please send it in WhatsApp to submit your request to GULSHIP.</p>
+        <p class="small-muted">Opening WhatsApp does not confirm that your message was sent, that payment was made, or that your order was accepted.</p>
+        <button class="primary-btn full-width-btn" id="reopenWhatsApp" type="button">
+          <i class="fa-brands fa-whatsapp"></i> Open WhatsApp Again
+        </button>
+        <button class="secondary-btn full-width-btn" id="returnHomeAfterOrder" type="button">
+          Return to Store
+        </button>
+      </div>
+    </section>
+
+       <!-- STORE CLOSED -->
+    <section class="page closed-page" id="closedPage">
+      <div class="closed-card">
+
+        <div class="closed-brand">
+          <span class="closed-brand-mark">G</span>
+          <span class="closed-brand-name">GULSHIP</span>
+        </div>
+
+        <div class="closed-icon">
+          <i class="fa-solid fa-store"></i>
+          <span class="closed-status-dot"></span>
+        </div>
+
+        <span class="closed-eyebrow">TEMPORARILY UNAVAILABLE</span>
+
+        <h1>We’ll Be Back Soon.</h1>
+
+        <p class="closed-description">
+          Our store is taking a short break. We appreciate your patience
+          and look forward to welcoming you back soon.
+        </p>
+
+        <div class="closed-divider"></div>
+
+        <div class="closed-info">
+          <i class="fa-regular fa-clock"></i>
+          <span>Please check back a little later.</span>
+        </div>
+
+        <button class="primary-btn closed-exit-btn" id="exitStore" type="button">
+          I Understand
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <p class="closed-footer">MODERN ESSENTIALS. ELEVATED.</p>
+
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Main navigation">
+    <button class="nav-item active" type="button" data-page="homePage">
+      <i class="fa-solid fa-house"></i><span>Home</span>
+    </button>
+    <button class="nav-item" type="button" data-page="cartPage">
+      <span class="nav-cart-icon">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span id="bottomCartCount">0</span>
+      </span>
+      <span>Shopping Bag</span>
+    </button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

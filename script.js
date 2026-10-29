@@ -897,7 +897,9 @@ function setOrderButtonLoading(loading) {
     const message = buildWhatsAppMessage(snapshot);
     pendingWhatsAppUrl =
       `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
+// Clear the cart immediately when Place Order is clicked.
+cart = [];
+saveCart();
     // Local record only: this is NOT a shared admin database.
     // Connect this event to a backend when the admin panel is built.
     const activity = readJSON(KEYS.activity, []);

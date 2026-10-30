@@ -559,12 +559,79 @@
   }
 
   function initialize() {
-    $("currentYear").textContent = new Date().getFullYear();
+  $("currentYear").textContent = new Date().getFullYear();
 
-    bindEvents();
-    renderEverything();
-    showSection("overview");
-  }
+  bindEvents();
+  renderEverything();
+  showSection("overview");
+}
 
+// GULSHIP ADMIN LOGIN
+const LOGIN_CREDENTIALS = {
+  email: "tapx.officials@gmail.com",
+  password: "bilal@gulship#786"
+};
+
+const LOGIN_SESSION_KEY = "gulship_admin_authenticated";
+
+function showDashboard() {
+  $("loginScreen").classList.add("hidden");
+  $("appShell").classList.remove("hidden");
   initialize();
+}
+
+function initializeLogin() {
+  const form = $("adminLoginForm");
+  const emailInput = $("loginEmail");
+  const passwordInput = $("loginPassword");
+  const passwordToggle = $("togglePassword");
+  const errorMessage = $("loginError");
+
+  try {
+    if (sessionStorage.getItem(LOGIN_SESSION_KEY) === "true") {
+      showDashboard();
+      return;
+    }
+  } catch {}
+
+  passwordToggle.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password";
+
+    passwordInput.type = isPassword ? "text" : "password";
+
+    passwordToggle.innerHTML = isPassword
+      ? '<i class="fa-regular fa-eye-slash"></i>'
+      : '<i class="fa-regular fa-eye"></i>';
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const valid =
+      emailInput.value.trim().toLowerCase() === LOGIN_CREDENTIALS.email &&
+      passwordInput.value === LOGIN_CREDENTIALS.password;
+
+    if (!valid) {
+      errorMessage.classList.remove("hidden");
+      passwordInput.value = "";
+      return;
+    }
+
+    try {
+      sessionStorage.setItem(LOGIN_SESSION_KEY, "true");
+    } catch {}
+
+    showDashboard();
+  });
+
+  emailInput.addEventListener("input", () =>
+    errorMessage.classList.add("hidden")
+  );
+
+  passwordInput.addEventListener("input", () =>
+    errorMessage.classList.add("hidden")
+  );
+}
+
+initializeLogin();
 })();

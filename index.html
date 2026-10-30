@@ -7,6 +7,9 @@
   <meta name="description" content="Explore modern eyewear and everyday tech accessories at GULSHIP. Browse products and submit your order through WhatsApp.">
   <title>GULSHIP — Modern Essentials</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
@@ -14,7 +17,7 @@
 <body>
   <header class="topbar" id="topbar">
     <button class="brand" type="button" data-page="homePage" aria-label="GULSHIP home">
-      <img src="logo.png" alt="GULSHIP logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <img src="./logo.png" alt="GULSHIP logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <span class="brand-fallback">G</span>
     </button>
 
@@ -68,7 +71,7 @@
     <section class="page active" id="homePage">
       <section class="hero">
         <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-label="GULSHIP collection showcase">
-          <source src="hero.mp4" type="video/mp4">
+          <source src="./hero.mp4" type="video/mp4">
           Your browser does not support video.
         </video>
         <div class="hero-shade"></div>
@@ -116,7 +119,6 @@
       <footer class="site-footer">
         <div class="footer-brand">GULSHIP</div>
         <p>Modern essentials, made easy to explore.</p>
-        <span>© <span id="year"></span> GULSHIP. All rights reserved.</span>
       </footer>
     </section>
 
@@ -149,6 +151,7 @@
 
           <div class="detail-highlights" id="detailHighlights"></div>
 
+          <div class="detail-sticky-boundary">
           <div class="detail-purchase">
             <label class="field-label" for="detailQty">Select quantity</label>
             <div class="quantity-control detail-quantity">
@@ -161,7 +164,7 @@
               </button>
             </div>
             <button class="primary-btn add-detail-btn" id="addDetailToCart" type="button">
-              <i class="fa-solid fa-bag-shopping"></i> Add to Shopping Bag
+              <i class="fa-solid fa-bag-shopping"></i> Add to Cart
             </button>
           </div>
           <section class="related-products-section" id="relatedProductsSection">
@@ -173,6 +176,7 @@
 
   <div class="product-grid related-products-grid" id="relatedProductsGrid"></div>
 </section>
+          </div>
 
           <div class="trust-note">
             <i class="fa-solid fa-shield-halved"></i>
@@ -230,18 +234,15 @@
     <!-- DELIVERY DETAILS -->
     <section class="page checkout-page" id="checkoutPage">
       <div class="checkout-wrap">
+        <div class="checkout-back-row">
+          <button class="back-btn" type="button" id="checkoutBack" aria-label="Back to shopping bag">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+        </div>
         <div class="page-heading">
           <span class="eyebrow">ALMOST THERE</span>
           <h1>Delivery Details</h1>
           <p>Enter your contact and delivery information. We’ll prepare an order request for WhatsApp.</p>
-        </div>
-
-        <div class="manual-payment-notice">
-          <span class="notice-icon"><i class="fa-solid fa-wallet"></i></span>
-          <div>
-            <strong>₹99 prepayment per product unit</strong>
-            <p>This website does not collect online payments. GULSHIP will contact you to arrange the required prepayment manually. Your order is not confirmed until GULSHIP confirms it.</p>
-          </div>
         </div>
 
         <form class="customer-form" id="customerForm">
@@ -287,97 +288,11 @@
             Your details will be included in the WhatsApp order request. Please verify them before continuing.
           </p>
 
-          <button class="primary-btn full-width-btn" type="submit">
-            Review Order & Payment Terms <i class="fa-solid fa-arrow-right"></i>
+          <button class="primary-btn full-width-btn confirm-payment-btn" id="confirmPayment" type="submit">
+            <i class="fa-brands fa-whatsapp"></i> Place Order
           </button>
-          <button class="text-btn" id="cancelCheckout" type="button">
-            Cancel Checkout
-          </button>
+          <p class="whatsapp-hint">WhatsApp will open with your order details pre-filled. You must send the message yourself. Your order remains unconfirmed until GULSHIP responds.</p>
         </form>
-      </div>
-    </section>
-
-    <!-- ORDER REVIEW / MANUAL PREPAYMENT -->
-    <section class="page payment-page" id="paymentPage">
-      <div class="payment-wrap">
-        <div class="page-heading">
-          <span class="eyebrow">FINAL REVIEW</span>
-          <h1>Review Your Order</h1>
-          <p>Check the amount and order details before sending your request to GULSHIP on WhatsApp.</p>
-        </div>
-
-        <div class="payment-total-card">
-          <span>Total product amount</span>
-          <strong id="paymentTotal">₹0</strong>
-          <div class="payment-split">
-            <div>
-              <span>Required manual prepayment</span>
-              <strong id="paymentAdvance">₹0</strong>
-            </div>
-            <div>
-              <span>Estimated remaining COD</span>
-              <strong id="paymentCod">₹0</strong>
-            </div>
-          </div>
-          <p class="calculation-note">Prepayment is calculated at ₹99 per product unit. Delivery charges, if applicable, are extra and must be confirmed by GULSHIP.</p>
-        </div>
-
-        <div class="payment-order-preview">
-          <h3>Order Summary</h3>
-          <div id="paymentItems"></div>
-          <div class="summary-line">
-            <span>Customer</span>
-            <strong id="reviewCustomerName">—</strong>
-          </div>
-          <div class="summary-line">
-            <span>Contact</span>
-            <strong id="reviewCustomerPhone">—</strong>
-          </div>
-          <div class="summary-line">
-            <span>Delivery PIN</span>
-            <strong id="reviewCustomerPincode">—</strong>
-          </div>
-        </div>
-
-        <div class="manual-payment-notice warning-notice">
-  <span class="notice-icon">
-    <i class="fa-solid fa-triangle-exclamation"></i>
-  </span>
-
-  <div>
-    <strong>Order Confirmation & Payment Instructions</strong>
-
-    <ol>
-      <li>Click <strong>Place Order</strong> to open WhatsApp with your order details.</li>
-      <li>Press <strong>Send</strong> on WhatsApp to submit your order request to GULSHIP.</li>
-      <li>GULSHIP will provide instructions for making the mandatory <strong>₹99 confirmation payment</strong> manually.</li>
-      <li>Your order will be confirmed only after GULSHIP receives and verifies the ₹99 payment.</li>
-    </ol>
-
-    <p>
-      <strong>Important:</strong> The ₹99 payment is compulsory.
-      If you do not make this payment, your order will not be accepted.
-      Sending your order on WhatsApp does not mean your order is confirmed.
-    </p>
-
-    <p>
-      The remaining order amount and any applicable delivery charges
-      will be communicated separately by GULSHIP.
-    </p>
-  </div>
-</div>
-
-        <button class="primary-btn full-width-btn confirm-payment-btn" id="confirmPayment" type="button">
-          <i class="fa-brands fa-whatsapp"></i> Place Order
-        </button>
-        <p class="whatsapp-hint">WhatsApp will open with your order details pre-filled. You must send the message yourself. The order remains unconfirmed until GULSHIP responds.</p>
-
-        <button class="text-btn full-width-btn" id="backToDetails" type="button">
-          <i class="fa-solid fa-arrow-left"></i> Edit Delivery Details
-        </button>
-        <button class="text-btn full-width-btn" id="backToCart" type="button">
-          <i class="fa-solid fa-bag-shopping"></i> Return to Shopping Bag
-        </button>
       </div>
     </section>
 
@@ -448,7 +363,7 @@
         <i class="fa-solid fa-bag-shopping"></i>
         <span id="bottomCartCount">0</span>
       </span>
-      <span>Shopping Bag</span>
+      <span>Cart</span>
     </button>
   </nav>
 

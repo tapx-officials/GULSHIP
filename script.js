@@ -197,7 +197,6 @@
     "productPage",
     "cartPage",
     "checkoutPage",
-    "paymentPage",
     "confirmationPage",
     "closedPage"
   ];
@@ -328,72 +327,125 @@
     }
   }
 
-  function showPage(page, options = {}) {
-    if (!pages.includes(page)) page = "homePage";
+  function clearDetailPurchasePin() {
+    const purchase = document.querySelector("#productPage .detail-purchase");
+    const boundary = document.querySelector("#productPage .detail-sticky-boundary");
+    if (!purchase || !boundary) return;
 
-    if (isStoreClosed() && page !== "closedPage" && !options.allowClosed) {
-      page = "closedPage";
+    purchase.classList.remove("is-pinned");
+    boundary.classList.remove("purchase-is-pinned");
+    boundary.style.removeProperty("--detail-purchase-space");
+  }
+
+  function updateDetailPurchasePin() {
+    const productPage = $("productPage");
+    const purchase = document.querySelector("#productPage .detail-purchase");
+    const boundary = document.querySelector("#productPage .detail-sticky-boundary");
+    if (!productPage || !purchase || !boundary) return;
+
+    if (!productPage.classList.contains("active")) {
+      clearDetailPurchasePin();
+      return;
     }
 
-    pages.forEach(id => {
-      if ($(id)) $(id).classList.toggle("active", id === page);
-    });
-    if (page !== "productPage") {
-  stopDetailVideos();
-}
+    const top = window.innerWidth <= 650 ? 74 : 86;
+    const purchaseRect = purchase.getBoundingClientRect();
+    const boundaryBottom = boundary.getBoundingClientRect().bottom;
+    const pinned = purchase.classList.contains("is-pinned");
 
-    const restricted = [
-      "closedPage",
-      "checkoutPage",
-      "paymentPage",
-      "confirmationPage",
-      "productPage"
-    ].includes(page);
+    if (!pinned && purchaseRect.top <= top && boundaryBottom > top + purchaseRect.height) {
+      const styles = window.getComputedStyle(purchase);
+      const space = purchaseRect.height +
+        (parseFloat(styles.marginTop) || 0) +
+        (parseFloat(styles.marginBottom) || 0);
 
-    document.body.classList.toggle(
-      "checkout-mode",
-      page === "checkoutPage" || page === "paymentPage"
-    );
-
-    if ($("topbar")) {
-      $("topbar").style.display =
-        ["closedPage", "checkoutPage", "paymentPage"].includes(page) ? "none" : "";
+      boundary.style.setProperty("--detail-purchase-space", `${space}px`);
+      boundary.classList.add("purchase-is-pinned");
+      purchase.classList.add("is-pinned");
+      return;
     }
 
-    if ($("bottomNav")) {
-      $("bottomNav").style.display = restricted ? "none" : "";
-    }
-
-    closeSearch(false);
-
-    document.querySelectorAll(".nav-item").forEach(button => {
-      button.classList.toggle(
-        "active",
-        button.dataset.page === page ||
-        (page === "productPage" && button.dataset.page === "homePage")
-      );
-    });
-
-    if (page === "cartPage") renderCart();
-    if (page === "checkoutPage") fillCustomerForm();
-    if (page === "paymentPage") renderPaymentReview();
-
-    window.scrollTo({ top: 0, behavior: "instant" });
-
-    if (options.hash !== false) {
-      const hash = "#" + page.replace("Page", "").toLowerCase();
-
-      if (options.pushHistory) {
-        internalNavigation = true;
-        history.pushState({ gulshipPage: page }, "", hash);
-        internalNavigation = false;
-      } else {
-        try {
-          history.replaceState({ gulshipPage: page }, "", hash);
-        } catch {}
-      }
+    if (pinned && boundaryBottom <= top + purchaseRect.height) {
+      clearDetailPurchasePin();
     }
   }
+ 
+function showPage(page, options = {}) {
+  if (!pages.includes(page)) page = "homePage";
+
+  if (isStoreClosed() && page !== "closedPage" && !options.allowClosed) {
+    page = "closedPage";
+  }
+
+  pages.forEach(id => {
+    if ($(id)) $(id).classList.toggle("active", id === page);
+  });
+
+  if (page !== "productPage") {
+    stopDetailVideos();
+
+    if (window.detailPurchaseObserver) {
+      window.detailPurchaseObserver.disconnect();
+      window.detailPurchaseObserver = null;
+    }
+
+    document.querySelector("#productPage .detail-purchase")
+      ?.classList.remove("is-hidden");
+  }
+
+  const restricted = [
+    "closedPage",
+    "checkoutPage",
+    "confirmationPage",
+    "productPage"
+  ].includes(page);
+
+  document.body.classList.toggle(
+    "checkout-mode",
+    page === "checkoutPage"
+  );
+
+  if ($("topbar")) {
+    $("topbar").style.display =
+      ["closedPage", "checkoutPage"].includes(page) ? "none" : "";
+  }
+
+  if ($("bottomNav")) {
+    $("bottomNav").style.display = restricted ? "none" : "";
+  }
+
+  closeSearch(false);
+
+  document.querySelectorAll(".nav-item").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === page ||
+      (page === "productPage" && button.dataset.page === "homePage")
+    );
+  });
+
+  if (page === "cartPage") renderCart();
+  if (page === "checkoutPage") fillCustomerForm();
+
+  window.scrollTo({ top: 0, behavior: "instant" });
+
+ 
+
+  if (options.hash !== false) {
+    const hash = "#" + page.replace("Page", "").toLowerCase();
+
+    if (options.pushHistory) {
+      internalNavigation = true;
+      history.pushState({ gulshipPage: page }, "", hash);
+      internalNavigation = false;
+    } else {
+      try {
+        history.replaceState({ gulshipPage: page }, "", hash);
+      } catch {}
+    }
+  }
+}
+
 
   function renderCategories() {
     $("categoryRow").innerHTML = categories.map(category => `
@@ -541,7 +593,6 @@ function renderRelatedProducts(currentProductId) {
   }
 
   function openProduct(id) {
-    stopDetailVideos();
 
     const product = getProduct(id);
     if (!product) return;
@@ -750,39 +801,6 @@ function renderRelatedProducts(currentProductId) {
     return true;
   }
 
-  function renderPaymentReview() {
-    const lines = getCartLines();
-
-    if (!lines.length) {
-      showToast("Your shopping bag is empty.");
-      showPage("homePage");
-      return;
-    }
-
-    const total = getTotal(lines);
-    const quantity = getProductQuantity(lines);
-    const advance = getPrepayment(lines);
-    const cod = Math.max(0, total - advance);
-
-    $("paymentTotal").textContent = money(total);
-    $("paymentAdvance").textContent = money(advance);
-    $("paymentCod").textContent = money(cod);
-    $("reviewCustomerName").textContent = customer.name || "—";
-    $("reviewCustomerPhone").textContent = customer.phone || "—";
-    $("reviewCustomerPincode").textContent = customer.pincode || "—";
-
-    $("paymentItems").innerHTML = lines.map(item => `
-      <div class="payment-item-line">
-        <span>${escapeHTML(item.name)} × ${item.qty}</span>
-        <span>${money(item.price * item.qty)}</span>
-      </div>
-    `).join("");
-
-    // This is a manual prepayment model, not an online payment gateway.
-    // Keep the calculation visible for the customer and WhatsApp message.
-    $("paymentTotal").setAttribute("data-quantity", String(quantity));
-  }
-
   function buildWhatsAppMessage(snapshot) {
     const divider = "━━━━━━━━━━━━━━━━━━";
 
@@ -930,6 +948,8 @@ saveCart();
   }
 
   function bindEvents() {
+   
+
     document.querySelectorAll("[data-page]").forEach(button => {
       button.addEventListener("click", () => {
         const page = button.dataset.page;
@@ -1035,36 +1055,14 @@ saveCart();
       if (!event.currentTarget.reportValidity()) return;
 
       customer = readCustomerForm();
-
       if (!validateCustomer(customer)) return;
 
       writeJSON(KEYS.customer, customer);
-      showPage("paymentPage", { pushHistory: true });
-    });
-
-    $("confirmPayment").addEventListener("click", () => {
-      // This button does not collect payment; it prepares the WhatsApp request.
-      if (!customer.name || !customer.phone || !customer.address ||
-          !customer.city || !customer.state || !customer.pincode) {
-        showToast("Please complete delivery details first.");
-        showPage("checkoutPage");
-        return;
-      }
-
       submitOrderRequest();
     });
 
-    $("backToDetails").addEventListener("click", () => {
-      showPage("checkoutPage", { pushHistory: true });
-    });
-
-    $("backToCart").addEventListener("click", () => {
+    $("checkoutBack").addEventListener("click", () => {
       showPage("cartPage", { pushHistory: true });
-    });
-
-    $("cancelCheckout").addEventListener("click", () => {
-      showPage("cartPage", { pushHistory: true });
-      showToast("Checkout cancelled. Your shopping bag is unchanged.");
     });
 
     $("reopenWhatsApp").addEventListener("click", () => {
@@ -1151,8 +1149,6 @@ initializeBackNavigation();
   }
 
   function initialize() {
-    $("year").textContent = new Date().getFullYear();
-
     renderCategories();
     renderProducts();
     renderSearchResults();

@@ -16,7 +16,78 @@
 </head>
 
 <body>
-  <div class="app-shell">
+
+    <!-- Admin Login -->
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-mark">
+          <i class="fa-solid fa-crown"></i>
+        </span>
+        <div>
+          <strong>GULSHIP</strong>
+          <small>ADMIN STUDIO</small>
+        </div>
+      </div>
+
+      <div class="login-heading">
+        <span class="eyebrow">SECURE ACCESS</span>
+        <h1>Welcome back.</h1>
+        <p>Sign in to access your store dashboard.</p>
+      </div>
+
+      <form id="adminLoginForm">
+        <label class="login-label" for="loginEmail">Email address</label>
+        <div class="login-input-wrap">
+          <i class="fa-regular fa-envelope"></i>
+          <input
+            id="loginEmail"
+            type="email"
+            placeholder="Enter your email"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <label class="login-label" for="loginPassword">Password</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-lock"></i>
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          >
+          <button
+            class="password-toggle"
+            id="togglePassword"
+            type="button"
+            aria-label="Show password"
+          >
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+
+        <p class="login-error hidden" id="loginError" role="alert">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          Incorrect email or password.
+        </p>
+
+        <button class="login-submit" type="submit">
+          Sign In
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <i class="fa-solid fa-shield-halved"></i>
+        Authorised access only
+      </div>
+    </div>
+  </section>
+
+<div class="app-shell hidden" id="appShell">
 
     <!-- Desktop Sidebar -->
     <aside class="sidebar">

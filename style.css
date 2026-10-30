@@ -3360,3 +3360,771 @@ body.checkout-mode .search-screen {
 #confirmPayment i {
   color: #F7F2E8;
 }
+
+
+
+/* =========================================
+   GULSHIP — ANNOUNCEMENT TICKER
+========================================= */
+
+.announcement-section {
+  width: min(100% - 36px, var(--page-width));
+  margin: 25px auto 0;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 5px 18px rgba(33, 30, 24, 0.045);
+}
+
+.announcement-track {
+  display: flex;
+  width: max-content;
+  animation: gulshipAnnouncementScroll 34s linear infinite;
+  will-change: transform;
+}
+
+.announcement-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0;
+  padding: 15px 0;
+}
+
+.announcement-group span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 27px;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+  border-right: 1px solid var(--line);
+}
+
+.announcement-group span i {
+  color: var(--gold-dark);
+  font-size: 14px;
+}
+
+@keyframes gulshipAnnouncementScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.announcement-section:hover .announcement-track {
+  animation-play-state: paused;
+}
+
+
+/* =========================================
+   GULSHIP — ABOUT US PAGE
+========================================= */
+
+#aboutPage {
+  min-height: 75vh;
+  padding-bottom: 110px;
+}
+
+#aboutPage .page-heading {
+  margin-bottom: 30px;
+}
+
+.about-content {
+  width: min(100% - 36px, 900px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 22px;
+  align-items: stretch;
+}
+
+.about-intro,
+.about-contact {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--paper);
+  padding: 30px;
+  box-shadow: 0 8px 28px rgba(33, 30, 24, 0.045);
+}
+
+.about-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.about-brand-mark {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: var(--soft-gold);
+  color: var(--gold-dark);
+  font-family: "Playfair Display", serif;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.about-intro h2 {
+  margin: 20px 0 2px;
+  color: var(--ink);
+  font-family: "Playfair Display", serif;
+  font-size: 29px;
+  letter-spacing: 0.08em;
+}
+
+.about-intro > span {
+  color: var(--gold-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.about-intro p {
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.about-contact h2 {
+  margin: 0 0 20px;
+  color: var(--ink);
+  font-family: "Playfair Display", serif;
+  font-size: 23px;
+}
+
+.about-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 17px 0;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+.about-contact-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.about-contact-icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--soft-gold);
+  color: var(--gold-dark);
+  font-size: 16px;
+}
+
+.about-contact-item > span:nth-child(2) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.about-contact-item small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.about-contact-item strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.about-contact-item > i:last-child {
+  color: var(--gold-dark);
+  font-size: 12px;
+}
+
+.about-contact a {
+  transition: background 0.2s ease;
+}
+
+.about-contact a:hover {
+  background: rgba(177, 139, 72, 0.055);
+}
+
+
+/* =========================================
+   GULSHIP — THREE ITEM BOTTOM NAVIGATION
+========================================= */
+
+.bottom-nav {
+  width: min(440px, calc(100% - 28px));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bottom-nav .nav-item {
+  min-width: 0;
+  gap: 5px;
+}
+
+.bottom-nav .nav-item > span:last-child {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.bottom-nav .nav-item > i {
+  font-size: 17px;
+}
+
+.bottom-nav .nav-cart-icon {
+  position: relative;
+}
+
+
+/* =========================================
+   RESPONSIVE — TABLET
+========================================= */
+
+@media (max-width: 760px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .about-intro {
+    padding: 25px;
+  }
+
+  .about-contact {
+    padding: 23px;
+  }
+
+  .about-intro p {
+    max-width: 440px;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .announcement-section {
+    width: calc(100% - 26px);
+    margin-top: 19px;
+    border-radius: 12px;
+  }
+
+  .announcement-group {
+    padding: 13px 0;
+  }
+
+  .announcement-group span {
+    padding: 0 19px;
+    gap: 7px;
+    font-size: 11px;
+  }
+
+  .announcement-group span i {
+    font-size: 12px;
+  }
+
+  .announcement-track {
+    animation-duration: 29s;
+  }
+
+  .about-content {
+    width: calc(100% - 26px);
+  }
+
+  .about-intro,
+  .about-contact {
+    border-radius: 17px;
+  }
+
+  .about-intro {
+    padding: 23px;
+  }
+
+  .about-intro h2 {
+    font-size: 26px;
+  }
+
+  .about-contact {
+    padding: 20px;
+  }
+
+  .about-contact h2 {
+    font-size: 21px;
+  }
+
+  .about-contact-item {
+    gap: 11px;
+    padding: 15px 0;
+  }
+
+  .about-contact-icon {
+    width: 39px;
+    height: 39px;
+    min-width: 39px;
+    border-radius: 11px;
+  }
+
+  .about-contact-item strong {
+    font-size: 12px;
+  }
+
+  .bottom-nav {
+    width: min(420px, calc(100% - 24px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bottom-nav .nav-item > span:last-child {
+    font-size: 9px;
+  }
+}
+
+
+/* =========================================
+   ACCESSIBILITY — REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-track {
+    animation: none;
+  }
+}
+
+
+
+/* META RAYBAN CUSTOMER RATING */
+
+.meta-customer-rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 8px 0 10px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.meta-rating-stars {
+  color: #b18b48;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.meta-customer-rating strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.meta-customer-rating > span:last-child {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* BOTTOM NAV — ICON ABOVE LABEL */
+.bottom-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.bottom-nav .nav-item > i,
+.bottom-nav .nav-item .nav-cart-icon {
+  order: 1;
+}
+
+.bottom-nav .nav-item > span:last-child {
+  order: 2;
+  display: block;
+  line-height: 1.2;
+  text-align: center;
+}
+
+
+
+/* =========================================
+   GULSHIP — PREMIUM ABOUT US REDESIGN
+========================================= */
+
+#aboutPage {
+  padding: 35px 0 120px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(177,139,72,.09), transparent 55%);
+}
+
+#aboutPage .page-heading {
+  width: min(100% - 36px, 900px);
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+#aboutPage .page-heading .eyebrow {
+  display: inline-block;
+  padding: 8px 15px;
+  border: 1px solid rgba(177,139,72,.25);
+  border-radius: 30px;
+  background: rgba(177,139,72,.08);
+  color: var(--gold-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+#aboutPage .page-heading h1 {
+  margin: 15px 0 9px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(30px, 5vw, 43px);
+  color: var(--ink);
+  letter-spacing: -.025em;
+}
+
+#aboutPage .page-heading p {
+  max-width: 420px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.about-content {
+  width: min(100% - 36px, 920px);
+  gap: 20px;
+}
+
+/* BRAND CARD */
+.about-intro {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  padding: 35px;
+  border: 1px solid rgba(177,139,72,.25);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,.10), transparent 42%),
+    linear-gradient(145deg, #29251f, #171613);
+  box-shadow: 0 15px 40px rgba(0,0,0,.13);
+}
+
+.about-intro::before {
+  content: "";
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  right: -95px;
+  bottom: -95px;
+  border: 1px solid rgba(210,177,111,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 22px rgba(210,177,111,.035),
+              0 0 0 44px rgba(210,177,111,.025);
+}
+
+.about-brand-mark {
+  width: 66px;
+  height: 66px;
+  border: 1px solid rgba(221,191,133,.5);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #d8bd86, #9c7739);
+  color: #211b11;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+
+.about-intro h2 {
+  position: relative;
+  margin-top: 24px;
+  color: #f7edda;
+  font-size: 34px;
+  letter-spacing: .13em;
+}
+
+.about-intro > span {
+  position: relative;
+  color: #d5b777;
+  letter-spacing: .25em;
+}
+
+.about-intro p {
+  position: relative;
+  max-width: 330px;
+  margin-top: 24px;
+  color: rgba(255,255,255,.72);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+/* CONTACT CARD */
+.about-contact {
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: 0 12px 35px rgba(33,30,24,.055);
+}
+
+.about-contact h2 {
+  margin-bottom: 9px;
+  font-size: 24px;
+}
+
+.about-contact h2::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  margin-top: 13px;
+  border-radius: 5px;
+  background: var(--gold-dark);
+}
+
+.about-contact-item {
+  position: relative;
+  margin-top: 5px;
+  padding: 17px 10px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  transition: background .2s ease, border-color .2s ease,
+              transform .2s ease;
+}
+
+.about-contact a:hover {
+  background: rgba(177,139,72,.07);
+  border-color: rgba(177,139,72,.18);
+  transform: translateX(3px);
+}
+
+.about-contact-icon {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  border: 1px solid rgba(177,139,72,.18);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #f7f0e2, #eee1c4);
+  color: #947037;
+  font-size: 17px;
+}
+
+.about-contact-item small {
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.about-contact-item strong {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.about-contact-item > i:last-child {
+  font-size: 13px;
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  #aboutPage {
+    padding-top: 25px;
+  }
+
+  #aboutPage .page-heading {
+    margin-bottom: 23px;
+  }
+
+  .about-content {
+    gap: 14px;
+  }
+
+  .about-intro {
+    min-height: 285px;
+    padding: 27px;
+    border-radius: 21px;
+  }
+
+  .about-contact {
+    padding: 23px 17px;
+    border-radius: 21px;
+  }
+}
+
+@media (max-width: 380px) {
+  .about-intro h2 {
+    font-size: 29px;
+  }
+
+  .about-contact-item {
+    gap: 10px;
+    padding: 14px 5px;
+  }
+
+  .about-contact-item strong {
+    font-size: 11px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ABOUT US — CLICKABLE CONTACT INDICATORS */
+
+.about-contact-item {
+  cursor: pointer;
+  position: relative;
+  transition: all .22s ease;
+}
+
+.about-contact a.about-contact-item {
+  background: rgba(177,139,72,.035);
+  border: 1px solid rgba(177,139,72,.13);
+  margin: 9px 0;
+  padding: 16px 13px;
+}
+
+.about-contact a.about-contact-item:hover {
+  background: rgba(177,139,72,.11);
+  border-color: rgba(177,139,72,.38);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(33,30,24,.055);
+}
+
+.about-contact-item > i:last-child {
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(177,139,72,.12);
+  color: var(--gold-dark);
+  transition: transform .2s ease;
+}
+
+.about-contact a:hover > i:last-child {
+  transform: translate(2px, -2px);
+}
+
+/* Click hint */
+.about-contact a::after {
+  content: "TAP TO CONNECT";
+  position: absolute;
+  right: 49px;
+  bottom: 5px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  color: var(--gold-dark);
+  opacity: .8;
+}
+
+.about-contact a {
+  padding-bottom: 23px !important;
+}
+
+.about-contact a:active {
+  transform: scale(.985);
+}
+
+
+/* ANNOUNCEMENT TICKER — SLIGHTLY BIGGER */
+
+.announcement-group {
+  padding: 18px 0;
+}
+
+.announcement-group span {
+  font-size: 13px;
+  padding: 0 30px;
+  gap: 11px;
+}
+
+.announcement-group span i {
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .announcement-group {
+    padding: 16px 0;
+  }
+
+  .announcement-group span {
+    font-size: 12px;
+    padding: 0 22px;
+    gap: 9px;
+  }
+
+  .announcement-group span i {
+    font-size: 14px;
+  }
+}

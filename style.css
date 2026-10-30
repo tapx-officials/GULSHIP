@@ -42,10 +42,10 @@ html {
 
 body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--cream);
   color: var(--ink);
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -166,7 +166,7 @@ textarea:focus-visible {
 .brand-fallback {
   display: none;
   color: #e4c17d;
-  font: 28px Georgia, serif;
+  font: 28px "Playfair Display", Georgia, serif;
 }
 
 .brand-name {
@@ -176,7 +176,7 @@ textarea:focus-visible {
   color: var(--ink);
 
   text-align: left;
-  font: 700 21px Georgia, serif;
+  font: 700 21px "Playfair Display", Georgia, serif;
   letter-spacing: 2.3px;
   white-space: nowrap;
 }
@@ -353,7 +353,7 @@ textarea:focus-visible {
 
 .search-screen-content h2 {
   margin: 8px 0;
-  font: 500 clamp(27px, 4vw, 38px) Georgia, serif;
+  font: 500 clamp(27px, 4vw, 38px) "Playfair Display", Georgia, serif;
 }
 
 .search-screen-content > p {
@@ -468,7 +468,7 @@ body.checkout-mode .search-screen {
 .hero h1 {
   margin: 17px 0 12px;
 
-  font: 500 clamp(32px, 4.8vw, 57px)/1.1 Georgia, serif;
+  font: 500 clamp(32px, 4.8vw, 57px)/1.1 "Playfair Display", Georgia, serif;
   letter-spacing: -.7px;
 }
 
@@ -572,7 +572,7 @@ body.checkout-mode .search-screen {
 .section-heading h2,
 .page-heading h1 {
   margin: 6px 0 0;
-  font: 500 clamp(25px, 3.3vw, 35px)/1.15 Georgia, serif;
+  font: 500 clamp(25px, 3.3vw, 35px)/1.15 "Playfair Display", Georgia, serif;
 }
 
 .heading-actions {
@@ -760,7 +760,7 @@ body.checkout-mode .search-screen {
 .product-content h3 {
   margin: 8px 0 12px;
 
-  font: 500 18px/1.32 Georgia, serif;
+  font: 500 18px/1.32 "Playfair Display", Georgia, serif;
   overflow-wrap: anywhere;
 
   cursor: pointer;
@@ -911,7 +911,7 @@ body.checkout-mode .search-screen {
 .empty-state h2,
 .empty-state h3 {
   color: var(--ink);
-  font-family: Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-weight: 500;
 }
 
@@ -932,7 +932,7 @@ body.checkout-mode .search-screen {
 }
 
 .footer-brand {
-  font: 700 20px Georgia, serif;
+  font: 700 20px "Playfair Display", Georgia, serif;
   letter-spacing: 3px;
 }
 
@@ -1028,7 +1028,7 @@ body.checkout-mode .search-screen {
 
 .detail-info h1 {
   margin: 10px 0 14px;
-  font: 500 clamp(29px, 4vw, 43px)/1.12 Georgia, serif;
+  font: 500 clamp(29px, 4vw, 43px)/1.12 "Playfair Display", Georgia, serif;
 }
 
 .detail-price {
@@ -1092,13 +1092,15 @@ body.checkout-mode .search-screen {
 }
 
 .detail-purchase {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-
-  margin-top: 28px;
+  position: sticky;
+  top: 86px;
+  align-self: start;
+  z-index: 45;
 }
+
+/* Hide purchase card when related products appear */
+
+
 
 .field-label {
   width: 100%;
@@ -1293,7 +1295,7 @@ body.checkout-mode .search-screen {
 .cart-item h3 {
   margin: 0 0 7px;
 
-  font: 500 17px/1.3 Georgia, serif;
+  font: 500 17px/1.3 "Playfair Display", Georgia, serif;
   overflow-wrap: anywhere;
 }
 
@@ -1601,7 +1603,7 @@ body.checkout-mode .search-screen {
   display: block;
   margin-top: 7px;
 
-  font: 500 34px Georgia, serif;
+  font: 500 34px "Playfair Display", Georgia, serif;
 }
 
 .payment-split {
@@ -1651,7 +1653,7 @@ body.checkout-mode .search-screen {
 
 .payment-order-preview h3 {
   margin: 0 0 15px;
-  font: 500 19px Georgia, serif;
+  font: 500 19px "Playfair Display", Georgia, serif;
 }
 
 .payment-item-line {
@@ -1671,11 +1673,13 @@ body.checkout-mode .search-screen {
 }
 
 .confirm-payment-btn {
-  background: #286b43;
+  background: var(--gold-dark);
+  color: #fffdf8;
 }
 
 .confirm-payment-btn:hover {
-  background: #1e5534;
+  background: var(--gold);
+  color: var(--ink);
 }
 
 .whatsapp-hint {
@@ -1787,7 +1791,7 @@ body.checkout-mode .search-screen {
 }
 
 .confirmation-card h1 {
-  font: 500 30px Georgia, serif;
+  font: 500 30px "Playfair Display", Georgia, serif;
 }
 
 .confirmation-card p {
@@ -1870,7 +1874,7 @@ body.checkout-mode .search-screen {
   background: #29291f;
   color: var(--cream);
 
-  font-family: Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: 21px;
   font-weight: 700;
 }
@@ -3225,4 +3229,134 @@ body.checkout-mode .search-screen {
     animation-duration: 1.5s;
   }
 }
+/* GULSHIP — PRODUCT DETAIL STICKY PURCHASE CARD */
 
+.detail-sticky-boundary {
+  position: relative;
+  overflow: visible;
+}
+
+.detail-purchase {
+  position: static !important;
+  top: auto;
+  bottom: auto;
+  transform: none;
+  z-index: auto;
+  width: 100%;
+  margin: 20px 0 12px;
+  padding: 15px;
+  border: 1px solid rgba(232, 223, 207, .95);
+  border-radius: 16px;
+  background: rgba(255, 253, 248, .97);
+  box-shadow: 0 10px 26px rgba(57, 43, 22, .10);
+}
+
+/* Product purchase sticky card */
+.detail-sticky-boundary {
+  position: relative;
+  overflow: visible;
+}
+
+.detail-purchase {
+  position: sticky;
+  top: 86px;
+  z-index: 45;
+  align-self: start;
+  width: 100%;
+  margin: 20px 0 12px;
+  padding: 15px;
+  border: 1px solid rgba(232, 223, 207, .95);
+  border-radius: 16px;
+  background: rgba(255, 253, 248, .97);
+  box-shadow: 0 10px 26px rgba(57, 43, 22, .10);
+  backdrop-filter: blur(12px);
+}
+
+/* Related products */
+.detail-sticky-boundary .related-products-section {
+  margin-top: 16px;
+}
+
+.related-products-grid {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 2px 14px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.related-products-grid .product-card {
+  flex: 0 0 clamp(210px, 28vw, 285px);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.related-products-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+  .detail-purchase {
+    top: 74px;
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .detail-purchase .field-label {
+    grid-column: 1 / -1;
+  }
+
+  .detail-purchase .detail-quantity,
+  .detail-purchase .add-detail-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .detail-purchase .add-detail-btn {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 12px;
+  }
+
+  .related-products-grid .product-card {
+    flex-basis: min(74vw, 255px);
+  }
+}
+
+/* Product page animation */
+@keyframes productPageFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+#productPage.page.active {
+  animation: productPageFadeIn .25s ease both;
+}
+
+/* Place Order button – Dark Brown & Cream */
+#confirmPayment {
+  background: #4A3428;
+  color: #F7F2E8;
+  border: 1px solid #4A3428;
+}
+
+#confirmPayment:hover {
+  background: #38271F;
+  border-color: #38271F;
+}
+
+#confirmPayment i {
+  color: #F7F2E8;
+}

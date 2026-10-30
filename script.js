@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const WHATSAPP_NUMBER = "919983049708";
+  const WHATSAPP_NUMBER = "917827305767";
   const PREPAYMENT_PER_UNIT = 99;
   const MAX_QUANTITY = 20;
 
@@ -15,11 +15,11 @@
   // Product data: filenames and prices can be edited here.
   const products = [
     {
-      id: "meta-rayban",
-      name: "Rayban Meta AI Sunglasses Gen 2",
-      category: "Meta Glasses",
-      price: 1099,
-      oldPrice: 1348,
+     id: "meta-rayban",
+name: "Rayban Meta AI Sunglasses Gen 2",
+category: "Meta Glasses",
+price: 1499,
+oldPrice: 1949,
       images: [
         "meta1.jpg", "meta2.jpg", "meta3.jpg", "meta4.jpg",
         "meta5.jpg", "meta6.jpg", "meta7.jpg", "meta8.jpg",
@@ -35,7 +35,7 @@
       ],
       shortDescription:
         "A standout smart-glasses-inspired look with a detailed product gallery.",
-      badge: "FEATURED"
+      badge: "TOP RATED"
     },
     {
       id: "ai-goggles",
@@ -193,13 +193,14 @@
   const $ = id => document.getElementById(id);
 
   const pages = [
-    "homePage",
-    "productPage",
-    "cartPage",
-    "checkoutPage",
-    "confirmationPage",
-    "closedPage"
-  ];
+  "homePage",
+  "productPage",
+  "cartPage",
+  "aboutPage",
+  "checkoutPage",
+  "confirmationPage",
+  "closedPage"
+];
 
   let cart = readJSON(KEYS.cart, []);
   let customer = readJSON(KEYS.customer, {});
@@ -492,45 +493,88 @@ function renderRelatedProducts(currentProductId) {
     return Math.round((1 - product.price / product.oldPrice) * 100);
   }
 
-  function productCard(product, featured = false) {
-    return `
-      <article class="product-card ${featured ? "featured-meta" : ""}">
-        <div class="product-image-wrap" data-open-product="${product.id}" role="button" tabindex="0" aria-label="View ${escapeHTML(product.name)}">
-          <img src="${escapeHTML(product.images[0])}"
-               alt="${escapeHTML(product.name)}"
-               loading="eager"
-               decoding="async">
-          <span class="product-badge">${escapeHTML(product.badge || "GULSHIP PICK")}</span>
+  
+function productCard(product, featured = false) {
+  const hasDiscount =
+    Number(product.oldPrice) > Number(product.price);
+
+  const isMetaRayban = product.id === "meta-rayban";
+
+  return `
+    <article class="product-card ${featured ? "featured-meta" : ""}">
+      <div class="product-image-wrap"
+           data-open-product="${product.id}"
+           role="button"
+           tabindex="0"
+           aria-label="View ${escapeHTML(product.name)}">
+
+        <img src="${escapeHTML(product.images[0])}"
+             alt="${escapeHTML(product.name)}"
+             loading="eager"
+             decoding="async">
+
+        <span class="product-badge">
+          ${escapeHTML(product.badge || "GULSHIP PICK")}
+        </span>
+      </div>
+
+      <div class="product-content">
+        <span class="product-category">
+          ${escapeHTML(product.category)}
+        </span>
+
+        <h3 data-open-product="${product.id}">
+          ${escapeHTML(product.name)}
+        </h3>
+
+        ${featured
+          ? `<p class="product-description-short">${escapeHTML(product.shortDescription)}</p>`
+          : ""}
+
+        ${isMetaRayban ? `
+          <div class="meta-customer-rating">
+            <span class="meta-rating-stars">★★★★★</span>
+            <strong>4.9/5</strong>
+            <span>15k+ Happy Customers</span>
+          </div>
+        ` : ""}
+
+        <div class="product-price-row">
+          <span class="product-price">
+            ${money(product.price)}
+          </span>
+
+          ${hasDiscount ? `
+            <del class="product-old-price">
+              ${money(product.oldPrice)}
+            </del>
+
+            <span class="product-discount">
+              ${discountPercent(product)}% OFF
+            </span>
+          ` : ""}
         </div>
 
-        <div class="product-content">
-          <span class="product-category">${escapeHTML(product.category)}</span>
-          <h3 data-open-product="${product.id}">${escapeHTML(product.name)}</h3>
+        <div class="card-bottom">
+          <button class="card-view-btn"
+                  data-view-product="${product.id}"
+                  type="button">
+            View Details <i class="fa-solid fa-arrow-right"></i>
+          </button>
 
-          ${featured
-            ? `<p class="product-description-short">${escapeHTML(product.shortDescription)}</p>`
-            : ""}
-
-          <div class="product-price-row">
-            <span class="product-price">${money(product.price)}</span>
-            <del class="product-old-price">${money(product.oldPrice)}</del>
-            <span class="product-discount">${discountPercent(product)}% OFF</span>
-          </div>
-
-          <div class="card-bottom">
-            <button class="card-view-btn" data-view-product="${product.id}" type="button">
-              View Details <i class="fa-solid fa-arrow-right"></i>
-            </button>
-            <button class="card-add-btn" data-add-product="${product.id}" type="button"
-                    aria-label="Add ${escapeHTML(product.name)} to shopping bag"
-                    title="Add to Shopping Bag">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
+          <button class="card-add-btn"
+                  data-add-product="${product.id}"
+                  type="button"
+                  aria-label="Add ${escapeHTML(product.name)} to shopping bag"
+                  title="Add to Shopping Bag">
+            <i class="fa-solid fa-plus"></i>
+          </button>
         </div>
-      </article>
-    `;
-  }
+      </div>
+    </article>
+  `;
+}
+
 
   function renderProducts() {
     const filtered = products.filter(product =>
@@ -603,8 +647,20 @@ function renderRelatedProducts(currentProductId) {
     $("detailCategory").textContent = product.category.toUpperCase();
     $("detailName").textContent = product.name;
     $("detailPrice").textContent = money(product.price);
-    $("detailOldPrice").textContent = money(product.oldPrice);
-    $("detailDiscount").textContent = `${discountPercent(product)}% OFF`;
+
+const hasDiscount =
+  Number(product.oldPrice) > Number(product.price);
+
+$("detailOldPrice").textContent = hasDiscount
+  ? money(product.oldPrice)
+  : "";
+
+$("detailDiscount").textContent = hasDiscount
+  ? `${discountPercent(product)}% OFF`
+  : "";
+
+$("detailOldPrice").classList.toggle("hidden", !hasDiscount);
+$("detailDiscount").classList.toggle("hidden", !hasDiscount);
     $("detailDescription").textContent = product.description;
     $("detailQty").textContent = detailQuantity;
 

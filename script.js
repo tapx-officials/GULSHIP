@@ -18,7 +18,7 @@
      id: "meta-rayban",
 name: "Rayban Meta AI Sunglasses Gen 2",
 category: "Meta Glasses",
-price: 1499,
+price: 1599,
 oldPrice: 1949,
       images: [
         "meta1.jpg", "meta2.jpg", "meta3.jpg", "meta4.jpg",

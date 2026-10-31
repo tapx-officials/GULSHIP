@@ -182,6 +182,12 @@ oldPrice: 1949,
       badge: "FREE WATCH"
     }
   ];
+    // Generate one stable rating per product
+  products.forEach(product => {
+    product.rating = product.id === "meta-rayban"
+      ? "4.9"
+      : ((Math.floor(Math.random() * 7) + 42) / 10).toFixed(1);
+  });
 
   const categories = [
     { name: "All", icon: "fa-border-all" },
@@ -494,11 +500,11 @@ function renderRelatedProducts(currentProductId) {
   }
 
   
+
+
 function productCard(product, featured = false) {
   const hasDiscount =
     Number(product.oldPrice) > Number(product.price);
-
-  const isMetaRayban = product.id === "meta-rayban";
 
   return `
     <article class="product-card ${featured ? "featured-meta" : ""}">
@@ -531,13 +537,11 @@ function productCard(product, featured = false) {
           ? `<p class="product-description-short">${escapeHTML(product.shortDescription)}</p>`
           : ""}
 
-        ${isMetaRayban ? `
-          <div class="meta-customer-rating">
-            <span class="meta-rating-stars">★★★★★</span>
-            <strong>4.9/5</strong>
-            <span>15k+ Happy Customers</span>
-          </div>
-        ` : ""}
+        <div class="meta-customer-rating">
+          <span class="meta-rating-stars" style="--rating: ${Number(product.rating) * 20}%">★★★★★</span>
+          <strong>${product.rating}/5</strong>
+          <span>15K+ Happy Customers</span>
+        </div>
 
         <div class="product-price-row">
           <span class="product-price">
@@ -642,6 +646,17 @@ function productCard(product, featured = false) {
     if (!product) return;
 
     currentProduct = product;
+    const detailRating = $("detailTrustRating");
+if (detailRating) {
+detailRating.textContent = `${product.rating}/5 Ratings`;
+}
+const detailStars = $("detailTrustStars");
+if (detailStars) {
+  detailStars.style.setProperty(
+    "--rating",
+    `${Number(product.rating) * 20}%`
+  );
+}
     detailQuantity = 1;
 
     $("detailCategory").textContent = product.category.toUpperCase();

@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const WHATSAPP_NUMBER = "919983049708";
+  const WHATSAPP_NUMBER = "918384019015";
   const PREPAYMENT_PER_UNIT = 99;
   const MAX_QUANTITY = 20;
 
